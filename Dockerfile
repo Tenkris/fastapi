@@ -34,7 +34,3 @@ EXPOSE 8000
 
 # First, run set_key.py to configure AWS CLI, then start the FastAPI app
 CMD ["sh", "-c", "python /code/set_key.py && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"]
-
-# docker build -t dmind-backend .
-# docker run --rm -p 8000:8000 -d --name dmind-backend-container -it dmind-backend
-# uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
