@@ -4,7 +4,9 @@
 *.pyd
 __pycache__/
 *.env
-.env.*
+.env
+# Don't ignore example environment files
+!.env.example
 
 # Virtual Environment
 .venv/
