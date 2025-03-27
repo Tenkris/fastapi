@@ -1,72 +1,133 @@
-# DmindChatbot
+# FastAPI DynamoDB Starter
 
-Fastapi backend for Dmind chatbot
+A starter project for building APIs with FastAPI and DynamoDB.
 
-## Installation
+## Features
 
-Follow these steps to set up the project:
+- FastAPI framework for building high-performance APIs
+- PynamoDB for DynamoDB integration
+- Docker support for containerization
+- Environment variable configuration
+- Structured project layout
+- CORS middleware configured
 
-1. Clone the repository:
+## Prerequisites
 
-   ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
-   ```
+- Python 3.11+
+- pip (Python package manager)
+- Git
+- AWS account with DynamoDB access (for full functionality)
+- Docker (optional, for containerization)
 
-2. Create a virtual environment:
+## Getting Started
 
-   ```bash
-   python -m venv venv
-   ```
+### Clone the Repository
 
-3. Activate the virtual environment:
+```bash
+git clone https://github.com/yourusername/fastapi-dynamodb-starter.git
+cd fastapi-dynamodb-starter
+```
 
-   - On Unix or MacOS:
-     ```bash
-     source venv/bin/activate
-     ```
-   - On Windows:
-     ```bash
-     venv\Scripts\activate
-     ```
+### Create a New Branch
 
-4. Install the required packages:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+git checkout -b feature/your-feature-name
+```
 
-## Generating requirements.txt
+### Set Up Virtual Environment
 
-To create or update the `requirements.txt` file with the current project dependencies, use the following command:
+```bash
+# Create a virtual environment
+python -m venv venv
+
+# Activate the virtual environment
+# For Windows:
+venv\Scripts\activate
+# For macOS/Linux:
+source venv/bin/activate
+```
+
+### Install Dependencies
+
+```bash
+# Install requirements
+pip install -r requirements.txt
+```
+
+### Configure Environment Variables
+
+```bash
+# Copy the example .env file
+cp .env.example .env
+
+# Edit .env with your configuration
+# Set your AWS credentials and DynamoDB settings
+```
+
+### Run the Application
+
+```bash
+# Start the FastAPI server
+uvicorn app.main:app --reload
+```
+
+The API will be available at [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+### API Documentation
+
+FastAPI automatically generates interactive API documentation:
+
+- Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+
+## Freezing Dependencies
+
+To update the requirements.txt file with your current environment's packages:
 
 ```bash
 pip freeze > requirements.txt
 ```
 
-This command will list all installed packages in your virtual environment and write them to the `requirements.txt` file. Make sure to run this command whenever you add or update dependencies in your project.
+## Docker Support
 
-## Running the Application
-
-To run the application:
+Build and run the application using Docker:
 
 ```bash
-uvicorn app.main:app --reload
-```
+# Build the Docker image
+docker build -t fastapi-dynamodb-app .
 
-This command starts the Uvicorn server with hot-reloading enabled, which is useful for development.
+# Run the container
+docker run -d -p 8000:8000 --name fastapi-app fastapi-dynamodb-app
+```
 
 ## Project Structure
 
-(Add information about your project structure here)
+```
+fastapi-dynamodb-starter/
+├── app/                      # Application package
+│   ├── models/               # PynamoDB models
+│   ├── routers/              # API routes
+│   ├── schemas/              # Pydantic schemas
+│   ├── services/             # Business logic
+│   ├── utils/                # Utility functions
+│   └── main.py               # Application entry point
+├── .env                      # Environment variables (create from .env.example)
+├── .env.example              # Example environment variables
+├── .gitignore                # Git ignore rules
+├── Dockerfile                # Docker configuration
+├── requirements.txt          # Python dependencies
+├── set_key.py                # AWS credential setup utility
+└── README.md                 # This file
+```
 
-## API Documentation
+## Development Guidelines
 
-(Add information about your API endpoints here)
-
-## Contributing
-
-(Add guidelines for contributing to your project)
+1. Create a new branch for each feature or bug fix
+2. Follow the project structure when adding new functionality
+3. Add appropriate documentation
+4. Write tests for new features
+5. Update requirements.txt when adding new dependencies
 
 ## License
 
-(Add your license information here)
+This project is licensed under the MIT License - see the LICENSE file for details.
