@@ -1,6 +1,7 @@
 from app.models.book import BookModel
 from app.models.user import UserModel
 from app.models.question import QuestionModel
+from app.models.level import LevelModel
 from pynamodb.models import Model
 from botocore.session import Session
 from pynamodb.connection.base import Connection
@@ -27,3 +28,4 @@ def init_db():
     create_table_if_not_exists(BookModel)
     create_table_if_not_exists(UserModel)
     create_table_if_not_exists(QuestionModel)
+    create_table_if_not_exists(LevelModel)
