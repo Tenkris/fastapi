@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from app.services.level import LevelService
 from app.schemas.level import LevelCreate, LevelUpdate, LevelResponse
+from app.middleware.auth import verify_token
 from typing import List, Dict
 
 router = APIRouter(
@@ -11,6 +12,7 @@ router = APIRouter(
 @router.post("", response_model=LevelResponse, status_code=status.HTTP_201_CREATED)
 async def create_level(
     level_data: LevelCreate,
+    payload: dict = Depends(verify_token),
     level_service: LevelService = Depends()
 ):
     """
@@ -20,6 +22,7 @@ async def create_level(
 
 @router.get("", response_model=List[LevelResponse])
 async def get_all_levels(
+    payload: dict = Depends(verify_token),
     level_service: LevelService = Depends()
 ):
     """
@@ -30,6 +33,7 @@ async def get_all_levels(
 @router.get("/{level_id}", response_model=LevelResponse)
 async def get_level(
     level_id: int,
+    payload: dict = Depends(verify_token),
     level_service: LevelService = Depends()
 ):
     """
@@ -41,6 +45,7 @@ async def get_level(
 async def update_level(
     level_id: int,
     level_data: LevelUpdate,
+    payload: dict = Depends(verify_token),
     level_service: LevelService = Depends()
 ):
     """
@@ -51,6 +56,7 @@ async def update_level(
 @router.delete("/{level_id}", status_code=status.HTTP_200_OK)
 async def delete_level(
     level_id: int,
+    payload: dict = Depends(verify_token),
     level_service: LevelService = Depends()
 ):
     """
@@ -62,6 +68,7 @@ async def delete_level(
 async def add_question_to_level(
     level_id: int,
     question_id: str,
+    payload: dict = Depends(verify_token),
     level_service: LevelService = Depends()
 ):
     """
@@ -73,6 +80,7 @@ async def add_question_to_level(
 async def remove_question_from_level(
     level_id: int,
     question_id: str,
+    payload: dict = Depends(verify_token),
     level_service: LevelService = Depends()
 ):
     """

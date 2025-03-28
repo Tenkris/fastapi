@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from app.services.question import QuestionService
 from app.schemas.question import QuestionCreate, QuestionUpdate, QuestionResponse
+from app.middleware.auth import verify_token
 from typing import List
 
 router = APIRouter(
@@ -11,6 +12,7 @@ router = APIRouter(
 @router.post("", response_model=QuestionResponse, status_code=status.HTTP_201_CREATED)
 async def create_question(
     question_data: QuestionCreate,
+    payload: dict = Depends(verify_token),
     question_service: QuestionService = Depends()
 ):
     """
@@ -20,6 +22,7 @@ async def create_question(
 
 @router.get("", response_model=List[QuestionResponse])
 async def get_all_questions(
+    payload: dict = Depends(verify_token),
     question_service: QuestionService = Depends()
 ):
     """
@@ -30,6 +33,7 @@ async def get_all_questions(
 @router.get("/{question_id}", response_model=QuestionResponse)
 async def get_question(
     question_id: str,
+    payload: dict = Depends(verify_token),
     question_service: QuestionService = Depends()
 ):
     """
@@ -41,6 +45,7 @@ async def get_question(
 async def update_question(
     question_id: str,
     question_data: QuestionUpdate,
+    payload: dict = Depends(verify_token),
     question_service: QuestionService = Depends()
 ):
     """
@@ -51,6 +56,7 @@ async def update_question(
 @router.delete("/{question_id}", status_code=status.HTTP_200_OK)
 async def delete_question(
     question_id: str,
+    payload: dict = Depends(verify_token),
     question_service: QuestionService = Depends()
 ):
     """

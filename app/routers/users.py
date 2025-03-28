@@ -16,7 +16,7 @@ async def get_current_user(payload: dict = Depends(verify_token)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/", response_model=dict)
-async def get_all_users(payload: dict = Depends(check_permissions(["admin"]))):
+async def get_all_users(payload: dict = Depends(verify_token)):
     try:
         users = await user_service.get_all_users()
         return {"status": "success", "data": users}
