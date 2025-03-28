@@ -23,4 +23,3 @@ def create_table_if_not_exists(model : Model):
 def init_db():
     patch_connection_session(Config.DB_PROFILE)
     create_table_if_not_exists(BookModel)
-    
