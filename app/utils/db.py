@@ -1,4 +1,3 @@
-from app.models.book import BookModel
 from app.models.user import UserModel
 from app.models.question import QuestionModel
 from app.models.level import LevelModel
@@ -25,7 +24,6 @@ def create_table_if_not_exists(model : Model):
 
 def init_db():
     patch_connection_session(Config.DB_PROFILE)
-    create_table_if_not_exists(BookModel)
     create_table_if_not_exists(UserModel)
     create_table_if_not_exists(QuestionModel)
     create_table_if_not_exists(LevelModel)
