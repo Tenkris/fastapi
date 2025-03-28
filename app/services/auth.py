@@ -19,31 +19,24 @@ class AuthService:
             UserModel.get(user.email)
             raise HTTPException(status_code=409, detail="Email already registered")
         except DoesNotExist:
-            # Validate phone number
-            try:
-                UserModel.validate_phone(user.tel)
-            except ValueError as e:
-                raise HTTPException(status_code=400, detail=str(e))
-
             # Create new user
             hashed_password = self.pwd_context.hash(user.password)
             
             new_user = UserModel(
                 email=user.email,
-                name=user.name,
-                tel=user.tel,
-                role=user.role,
                 password=hashed_password,
-                age = user.age,
-                career=user.career,
-                gender=user.gender.value if user.gender else None,
-                hobbies=user.hobbies,
-                reason=user.reason
+                level_id=user.level_id if user.level_id else 1,
+                user_image=user.user_image,
+                attack=user.attack if user.attack else 10.0,
+                defense=user.defense if user.defense else 10.0,
+                speed=user.speed if user.speed else 10.0,
+                critical=user.critical if user.critical else 5.0,
+                hp=user.hp if user.hp else 100.0
             )
             new_user.save()
             
             # Create token
-            token = await create_access_token({"sub": user.email, "role": user.role})
+            token = await create_access_token({"sub": user.email})
             
             return {"token": token, "user": UserResponse(**new_user.to_dict())}
 
@@ -55,28 +48,11 @@ class AuthService:
                 raise HTTPException(status_code=400, detail="Invalid credentials")
             
             # Create token
-            token = await create_access_token({"sub": user.email, "role": user.role})
-            
-            # Send login confirmation email
-            try:
-                async with httpx.AsyncClient() as client:
-                    await client.post(
-                        f"{Config.EMAIL_SERVICE_URL}/login-confirmation",
-                        json={"user_email": email},
-                        headers={"Authorization": f"Bearer {token}"}
-                    )
-            except Exception as e:
-                print(f"Failed to send login confirmation email: {e}")
-            
+            token = await create_access_token({"sub": user.email})
             return {"token": token, "user": UserResponse(**user.to_dict())}
             
         except DoesNotExist:
             raise HTTPException(status_code=400, detail="Invalid credentials")
         except Exception as e:
-            logger.log_user_error(
-                user_email=email,
-                error=e,
-                function_name="login"
-            )
             raise HTTPException(status_code=400, detail=str(e)) 
         

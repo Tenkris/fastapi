@@ -1,4 +1,5 @@
 from app.models.book import BookModel
+from app.models.user import UserModel
 from pynamodb.models import Model
 from botocore.session import Session
 from pynamodb.connection.base import Connection
@@ -23,3 +24,4 @@ def create_table_if_not_exists(model : Model):
 def init_db():
     patch_connection_session(Config.DB_PROFILE)
     create_table_if_not_exists(BookModel)
+    create_table_if_not_exists(UserModel)

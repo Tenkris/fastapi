@@ -1,33 +1,30 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr
-from app.schemas.enums import Gender
 from datetime import datetime, timezone
 
 class UserCreate(BaseModel):
-    name: str
     email: EmailStr
-    tel: str
     password: str
-    role: str = "user"
-    age: Optional[int] = None
-    career: Optional[str] = None
-    gender: Optional[Gender] = None
-    hobbies: Optional[str] = None
-    reason: Optional[str] = None
+    level_id: Optional[int] = 1
+    user_image: Optional[str] = None
+    attack: Optional[float] = 10.0
+    defense: Optional[float] = 10.0
+    speed: Optional[float] = 10.0
+    critical: Optional[float] = 5.0
+    hp: Optional[float] = 100.0
 
     class Config:
         json_schema_extra = {
             "example": {
-                "name": "John Doe",
                 "email": "john@example.com",
-                "tel": "1234567890",
                 "password": "password123",
-                "role": "user", 
-                "age": 30,
-                "career": "Software Engineer",
-                "gender": "female",
-                "hobbies": "reading, hiking, photography",
-                "reason": "Interested in joining the platform"
+                "level_id": 1,
+                "user_image": "https://s3.amazonaws.com/bucket/image.jpg",
+                "attack": 10.0,
+                "defense": 10.0,
+                "speed": 10.0,
+                "critical": 5.0,
+                "hp": 100.0
             }
         }
 
@@ -36,37 +33,36 @@ class UserLogin(BaseModel):
     password: str
 
 class UserResponse(BaseModel):
-    name: str
     email: EmailStr
-    tel: str
-    role: str = "user"
-    age: Optional[int] = None
-    career: Optional[str] = None
-    gender: Optional[Gender] = None
-    hobbies: Optional[str] = None
-    reason: Optional[str] = None
+    level_id: int
+    user_image: Optional[str] = None
+    attack: float
+    defense: float
+    speed: float
+    critical: float
+    hp: float
 
     class Config:
         orm_mode = True
 
 class UserUpdate(BaseModel):
-    name: Optional[str] = None
-    tel: Optional[str] = None
-    age: Optional[int] = None
-    career: Optional[str] = None
-    gender: Optional[Gender] = None
-    hobbies: Optional[str] = None
-    reason: Optional[str] = None
+    level_id: Optional[int] = None
+    user_image: Optional[str] = None
+    attack: Optional[float] = None
+    defense: Optional[float] = None
+    speed: Optional[float] = None
+    critical: Optional[float] = None
+    hp: Optional[float] = None
 
     class Config:
         json_schema_extra = {
             "example": {
-                "name": "John Doe",
-                "tel": "1234567890",
-                "age": 30,
-                "career": "Software Engineer",
-                "gender": "male",
-                "hobbies": "reading, hiking",
-                "reason": "Personal development"
+                "level_id": 2,
+                "user_image": "https://s3.amazonaws.com/bucket/updated-image.jpg",
+                "attack": 15.0,
+                "defense": 12.0,
+                "speed": 11.0,
+                "critical": 6.0,
+                "hp": 120.0
             }
         }

@@ -8,5 +8,5 @@ class Config:
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     FRONTEND_URL = os.environ.get('FRONTEND_URL')    
     DB_PROFILE = os.environ.get('DB_PROFILE')
- 
+    JWT_SECRET = os.environ.get('JWT_SECRET')
                                  

@@ -1,5 +1,5 @@
 from pynamodb.models import Model
-from pynamodb.attributes import UnicodeAttribute, ListAttribute, UTCDateTimeAttribute , NumberAttribute
+from pynamodb.attributes import UnicodeAttribute, ListAttribute, UTCDateTimeAttribute, NumberAttribute
 from app.utils.config import Config
 from datetime import datetime, timezone
 
@@ -10,14 +10,13 @@ class UserModel(Model):
         
     email = UnicodeAttribute(hash_key=True)
     password = UnicodeAttribute()
-    name = UnicodeAttribute()
-    tel = UnicodeAttribute()
-    role = UnicodeAttribute()
-    career = UnicodeAttribute(null=True)
-    gender = UnicodeAttribute(null=True)
-    hobbies = UnicodeAttribute(null=True)
-    reason = UnicodeAttribute(null=True)
-    age = NumberAttribute(null=True)
+    level_id = NumberAttribute(default=1)
+    user_image = UnicodeAttribute(null=True)
+    attack = NumberAttribute(default=10.0)
+    defense = NumberAttribute(default=10.0)
+    speed = NumberAttribute(default=10.0)
+    critical = NumberAttribute(default=5.0)
+    hp = NumberAttribute(default=100.0)
     created_at = UTCDateTimeAttribute(default=lambda: datetime.now(timezone.utc))
 
     @staticmethod
@@ -27,15 +26,14 @@ class UserModel(Model):
     def to_dict(self):
         return {
             'id': self.email,
-            'name': self.name,
             'email': self.email,
-            'tel': self.tel,
-            'role': self.role,
-            'age': self.age,
-            'career': self.career,
-            'gender': self.gender,
-            'hobbies': self.hobbies if self.hobbies else None,
-            'reason': self.reason,
+            'level_id': self.level_id,
+            'user_image': self.user_image,
+            'attack': self.attack,
+            'defense': self.defense,
+            'speed': self.speed,
+            'critical': self.critical,
+            'hp': self.hp,
             'created_at': self.created_at.isoformat()
         }
     
