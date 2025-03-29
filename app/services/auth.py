@@ -24,6 +24,7 @@ class AuthService:
             
             new_user = UserModel(
                 email=user.email,
+                name=user.name,
                 password=hashed_password,
                 level_id=user.level_id if user.level_id else 1,
                 user_image=user.user_image,
