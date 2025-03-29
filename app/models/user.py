@@ -9,6 +9,7 @@ class UserModel(Model):
         region = Config.AWS_REGION_NAME
         
     email = UnicodeAttribute(hash_key=True)
+    name = UnicodeAttribute(null=True)
     password = UnicodeAttribute()
     level_id = NumberAttribute(default=1)
     user_image = UnicodeAttribute(null=True)
@@ -27,6 +28,7 @@ class UserModel(Model):
         return {
             'id': self.email,
             'email': self.email,
+            'name': self.name,
             'level_id': self.level_id,
             'user_image': self.user_image,
             'attack': self.attack,

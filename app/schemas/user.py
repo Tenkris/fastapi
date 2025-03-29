@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 
 class UserCreate(BaseModel):
     email: EmailStr
+    name: Optional[str] = None
     password: str
     level_id: Optional[int] = 1
     user_image: Optional[str] = None
@@ -17,6 +18,7 @@ class UserCreate(BaseModel):
         json_schema_extra = {
             "example": {
                 "email": "john@example.com",
+                "name": "John Doe",
                 "password": "password123",
                 "level_id": 1,
                 "user_image": "https://s3.amazonaws.com/bucket/image.jpg",
@@ -34,6 +36,7 @@ class UserLogin(BaseModel):
 
 class UserResponse(BaseModel):
     email: EmailStr
+    name: Optional[str] = None
     level_id: int
     user_image: Optional[str] = None
     attack: float
@@ -46,6 +49,7 @@ class UserResponse(BaseModel):
         orm_mode = True
 
 class UserUpdate(BaseModel):
+    name: Optional[str] = None
     level_id: Optional[int] = None
     user_image: Optional[str] = None
     attack: Optional[float] = None
@@ -57,6 +61,7 @@ class UserUpdate(BaseModel):
     class Config:
         json_schema_extra = {
             "example": {
+                "name": "John Smith",
                 "level_id": 2,
                 "user_image": "https://s3.amazonaws.com/bucket/updated-image.jpg",
                 "attack": 15.0,
