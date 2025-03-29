@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime
+from app.schemas.question import QuestionResponse
 
 class LevelBase(BaseModel):
     boss_name: str
@@ -23,6 +24,12 @@ class LevelResponse(LevelBase):
     level: int
     created_at: datetime
     updated_at: datetime
+    
+    class Config:
+        orm_mode = True
+
+class LevelWithQuestionsResponse(LevelResponse):
+    questions: List[QuestionResponse] = []
     
     class Config:
         orm_mode = True 

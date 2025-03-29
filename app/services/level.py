@@ -2,7 +2,9 @@ from fastapi import HTTPException
 from pynamodb.exceptions import DoesNotExist
 from app.models.level import LevelModel
 from app.models.question import QuestionModel
-from app.schemas.level import LevelCreate, LevelUpdate, LevelResponse
+from app.models.user import UserModel
+from app.schemas.level import LevelCreate, LevelUpdate, LevelResponse, LevelWithQuestionsResponse
+from app.schemas.question import QuestionResponse
 from typing import List, Optional
 from datetime import datetime, timezone
 
@@ -175,4 +177,58 @@ class LevelService:
         except HTTPException:
             raise
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Error removing question from level: {str(e)}") 
+            raise HTTPException(status_code=500, detail=f"Error removing question from level: {str(e)}")
+            
+    async def get_user_level_history(self, user_email: str) -> List[LevelWithQuestionsResponse]:
+        """
+        Get user's level history - all levels with ID less than or equal to the user's current level,
+        including nested question details
+        """
+        if not user_email:
+            raise HTTPException(
+                status_code=400, 
+                detail="User email is required"
+            )
+            
+        try:
+            # Get user's current level
+            try:
+                user = UserModel.get(user_email)
+                if not user:
+                    raise HTTPException(status_code=404, detail=f"User with email {user_email} not found")
+                    
+                current_level = user.level_id
+            except DoesNotExist:
+                raise HTTPException(status_code=404, detail=f"User with email {user_email} not found")
+            
+            # Get all levels less than or equal to the user's current level
+            level_responses = []
+            for level_id in range(1, current_level):
+                try:
+                    level = LevelModel.get(level_id)
+                    
+                    # Convert level to response
+                    level_dict = level.to_dict()
+                    
+                    # Fetch detailed question data for each question in the level
+                    questions = []
+                    for question_id in level.question_ids:
+                        try:
+                            question = QuestionModel.get(question_id)
+                            questions.append(QuestionResponse(**question.to_dict()))
+                        except DoesNotExist:
+                            # Skip questions that don't exist
+                            continue
+                    
+                    # Create response with nested questions
+                    level_response = LevelWithQuestionsResponse(**level_dict, questions=questions)
+                    level_responses.append(level_response)
+                except DoesNotExist:
+                    # Skip levels that don't exist
+                    continue
+            
+            return level_responses
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error fetching user level history: {str(e)}") 
