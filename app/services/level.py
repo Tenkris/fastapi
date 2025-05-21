@@ -33,6 +33,7 @@ class LevelService:
                 level=level_data.level,
                 boss_name=level_data.boss_name,
                 boss_image_s3=level_data.boss_image_s3,
+                background_image_s3=level_data.background_image_s3,
                 boss_hp=level_data.boss_hp,
                 boss_attack=level_data.boss_attack,
                 question_ids=level_data.question_ids
@@ -90,6 +91,9 @@ class LevelService:
                 
             if 'boss_image_s3' in update_data:
                 level.boss_image_s3 = update_data['boss_image_s3']
+                
+            if 'background_image_s3' in update_data:
+                level.background_image_s3 = update_data['background_image_s3']
                 
             if 'boss_hp' in update_data and update_data['boss_hp'] is not None:
                 level.boss_hp = update_data['boss_hp']

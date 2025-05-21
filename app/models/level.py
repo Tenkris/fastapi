@@ -13,6 +13,7 @@ class LevelModel(Model):
         
     level = NumberAttribute(hash_key=True, default=1)
     boss_image_s3 = UnicodeAttribute(null=True)
+    background_image_s3 = UnicodeAttribute(null=True)
     boss_hp = NumberAttribute(default=100)
     boss_attack = NumberAttribute(default=10)
     boss_name = UnicodeAttribute()
@@ -24,6 +25,7 @@ class LevelModel(Model):
         return {
             'level': self.level,
             'boss_image_s3': self.boss_image_s3,
+            'background_image_s3': self.background_image_s3,
             'boss_hp': self.boss_hp,
             'boss_attack': self.boss_attack,
             'boss_name': self.boss_name,

@@ -6,6 +6,7 @@ from app.schemas.question import QuestionResponse
 class LevelBase(BaseModel):
     boss_name: str
     boss_image_s3: Optional[str] = None
+    background_image_s3: Optional[str] = None
     boss_hp: int = 100
     boss_attack: int = 10
     question_ids: List[str] = []
@@ -16,6 +17,7 @@ class LevelCreate(LevelBase):
 class LevelUpdate(BaseModel):
     boss_name: Optional[str] = None
     boss_image_s3: Optional[str] = None
+    background_image_s3: Optional[str] = None
     boss_hp: Optional[int] = None
     boss_attack: Optional[int] = None
     question_ids: Optional[List[str]] = None
